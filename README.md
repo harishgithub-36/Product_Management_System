@@ -1,4 +1,4 @@
-# Product Management System And Admin Panel, Spring Boot, Angular 13, MySQL, Hibernate, Liquibase
+# Product Management System , Spring Boot, Angular 13, MySQL, Hibernate, Liquibase
 ### Access server side using following URL
 
 ```

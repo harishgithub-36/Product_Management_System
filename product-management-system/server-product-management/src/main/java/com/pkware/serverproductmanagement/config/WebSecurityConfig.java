@@ -23,10 +23,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
-
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 
+	// defining password encoder we can produce unique password each time
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -52,12 +52,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// Cross side request forgery
 				.csrf().disable();
 
-		// jwt filter
+//		 jwt filter
 		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtTokenProvider));
+
 	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		// overriding authentication manager builder configuration
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
@@ -67,6 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
+				// allowing all origins here
 				registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
 			}
 		};

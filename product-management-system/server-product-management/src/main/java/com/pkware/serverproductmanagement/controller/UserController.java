@@ -46,6 +46,8 @@ public class UserController {
 	}
 
 	@GetMapping("/api/user/login")
+
+	// Principal will get the encrypted authorization token
 	public ResponseEntity<?> getUser(Principal principal) {
 		// principal = httpServletRequest.getUserPrincipal.
 		if (principal == null) {
@@ -55,6 +57,7 @@ public class UserController {
 		UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) principal;
 		User user = userService.findByUsername(authenticationToken.getName());
 		user.setToken(tokenProvider.generateToken(authenticationToken));
+//		return new ResponseEntity<>(userService.findByUsername(principal.getName()), HttpStatus.OK);
 
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}

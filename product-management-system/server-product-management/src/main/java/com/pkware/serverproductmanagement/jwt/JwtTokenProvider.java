@@ -47,6 +47,7 @@ public class JwtTokenProvider {
 		if (token == null) {
 			return null;
 		}
+		// getting username and roles from token
 		Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 		String username = claims.getSubject();
 		final List<GrantedAuthority> authorities = Arrays.stream(claims.get("roles").toString().split(","))
@@ -55,12 +56,15 @@ public class JwtTokenProvider {
 		return username != null ? new UsernamePasswordAuthenticationToken(username, null, authorities) : null;
 	}
 
+	// Checking expired date of token
 	public boolean validateToken(HttpServletRequest request) {
 		String token = resolveToken(request);
 		if (token == null) {
 			return false;
 		}
 		Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+
+		// Checking token is valid or not using expired time
 		if (claims.getExpiration().before(new Date())) {
 			return false;
 		}

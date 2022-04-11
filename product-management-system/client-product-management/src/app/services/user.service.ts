@@ -24,6 +24,7 @@ export class UserService {
     return this.currentUserSubject.value;
   }
 
+  //sending post and get request to server side
   login(user: User): Observable<any> {
     const headers = new HttpHeaders(user ? {
       authorization:'Basic ' + btoa(user.username + ':' + user.password)
